@@ -1,0 +1,31 @@
+#!/bin/bash
+
+usage() {
+  echo "Usage: app-cli [ --install-docker-compose --generate-default-app ]" >&2
+  exit 1
+}
+
+install_docker_compose() {
+  touch Gemfile.lock
+  cp /opt/toolbox/helpers/Dockerfile.app /app/Dockerfile
+  cp /opt/toolbox/helpers/docker-compose.app /app/docker-compose.yml
+  echo 'Docker compose installed with success'
+  exit 1
+}
+
+generate_default_app() {
+  rails new /app --skip-bundle --skip-javascript --database=postgresql
+  exit 1
+}
+
+case $1 in
+  --install-docker-compose)
+    install_docker_compose
+    ;;
+  --generate-default-app)
+    generate_default_app
+    ;;
+  *)
+    usage
+    ;;
+esac
